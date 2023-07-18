@@ -7,48 +7,67 @@
 
 import SwiftUI
 
-class User: ObservableObject {
-    @Published var firstName = "Default"
-    @Published var lastName = "User"
-}
+//class Items: ObservableObject {
+//    @Published var name = "Product"
+//}
 
 struct SegundaView: View {
     @Environment(\.dismiss) var dismiss
-    var name: String
+    var itens = [String]()
     
     var body: some View {
-        VStack {
-            Text("Seja Bem-Vindo \(name)!")
-            
-            Button("Fechar", action: {
-                dismiss()
-            })
-            .buttonStyle(.borderedProminent)
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(itens, id: \.self) {
+                        Text($0)
+                    }
+                }
+                Button("Fechar", action: {
+                    dismiss()
+                })
+            }
+            .navigationTitle("Itens")
         }
     }
 }
 
 struct ContentView: View {
-    @StateObject private var user = User()
-    
+    @State private var item = ""
     @State private var showingNextPage = false
+    @State private var itensAdicionados = [String]()
     
     var body: some View {
-        VStack {
-            Text("Insira seu nome:")
-            
-            TextField("Insira seu primeiro nome", text: $user.firstName)
-            TextField("Insira seu ultimo nome", text: $user.lastName)
-            
-            Button("Proximo", action: {
-                showingNextPage = true
-            })
-            .buttonStyle(.borderedProminent)
+        NavigationView {
+            VStack {
+                VStack {
+                    Text("Insira um novo item à lista:")
+                    
+                    TextField("Insira um item", text: $item)
+                    
+                    Button("Adicionar", action: {
+                        itensAdicionados.append(item)
+                    })
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                
+                List {
+                    ForEach(itensAdicionados, id: \.self) {
+                        Text($0)
+                    }
+                    .onDelete(perform: removeRow)
+                }
+            }
+            .navigationTitle("Itens")
+            .toolbar {
+                EditButton()
+            }
         }
-        .sheet(isPresented: $showingNextPage) {
-            SegundaView(name: "\(user.firstName) \(user.lastName)")
-        }
-        .padding()
+    }
+    
+    func removeRow(at offsets: IndexSet) {
+        itensAdicionados.remove(atOffsets: offsets)
     }
 }
 
