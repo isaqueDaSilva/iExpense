@@ -7,13 +7,31 @@
 
 import SwiftUI
 
-class User {
-    var firstName = "Default"
-    var lastName = "User"
+class User: ObservableObject {
+    @Published var firstName = "Default"
+    @Published var lastName = "User"
+}
+
+struct SegundaView: View {
+    @Environment(\.dismiss) var dismiss
+    var name: String
+    
+    var body: some View {
+        VStack {
+            Text("Seja Bem-Vindo \(name)!")
+            
+            Button("Fechar", action: {
+                dismiss()
+            })
+            .buttonStyle(.borderedProminent)
+        }
+    }
 }
 
 struct ContentView: View {
-    @State private var user = User()
+    @StateObject private var user = User()
+    
+    @State private var showingNextPage = false
     
     var body: some View {
         VStack {
@@ -22,9 +40,13 @@ struct ContentView: View {
             TextField("Insira seu primeiro nome", text: $user.firstName)
             TextField("Insira seu ultimo nome", text: $user.lastName)
             
-            Text("Seu nome: \(user.firstName) \(user.lastName)")
-                .font(.subheadline.bold())
-                .foregroundColor(.gray)
+            Button("Proximo", action: {
+                showingNextPage = true
+            })
+            .buttonStyle(.borderedProminent)
+        }
+        .sheet(isPresented: $showingNextPage) {
+            SegundaView(name: "\(user.firstName) \(user.lastName)")
         }
         .padding()
     }
