@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+struct ListView: View {
+    var title: String
+    var description: String
+    
+    var body: some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(description)
+                .foregroundColor(.gray)
+        }
+    }
+}
+
 struct ContentView: View {
     @StateObject var expenses = Expenses()
     @State private var typeOfExpenses: TypeOfExpenses = .personal
@@ -53,14 +67,30 @@ struct ContentView: View {
                 if !expenses.items.isEmpty {
                     Section("Expenses:") {
                         ForEach(search) { item in
-                            HStack {
-                                Text(item.name)
-                                    .font(.headline.bold())
-                                
-                                Spacer()
-                                
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                            }
+                            NavigationLink(destination: {
+                                List {
+                                    ListView(title: "Name:", description: item.name)
+                                    ListView(title: "Type:", description: item.type)
+                                    
+                                    HStack {
+                                        Text("Amount:")
+                                        Spacer()
+                                        Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                            .foregroundColor(.gray)
+                                    }
+                                    
+                                }
+                                .navigationTitle("Details")
+                            }, label: {
+                                HStack {
+                                    Text(item.name)
+                                        .font(.headline.bold())
+                                    
+                                    Spacer()
+                                    
+                                    Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                }
+                            })
                         }
                         .onDelete(perform: removeRows)
                     }
@@ -82,13 +112,13 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     VStack {
-                        Text("Total Amount of \(typeOfExpenses.rawValue) Expenses: \(totalOfCurrentExpense, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))")
+                        Text("Total of \(typeOfExpenses.rawValue) Expenses: \(totalOfCurrentExpense, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))")
                             .font(.subheadline.bold())
                             .foregroundColor(.gray)
 
                         Spacer()
 
-                        Text("Total Amount of Expenses: \(totalOfExpenses, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))")
+                        Text("Total of Expenses: \(totalOfExpenses, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))")
                             .font(.subheadline.bold())
                             .foregroundColor(.gray)
                     }
