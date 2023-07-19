@@ -12,6 +12,7 @@ struct AddExpenseView: View {
     @State private var name = ""
     @State private var typeOfExpense: TypeOfExpenses = .personal
     @State private var amount: Double = 0
+    @ObservedObject var expenses: Expenses
     
     var body: some View {
         NavigationView {
@@ -52,6 +53,6 @@ struct AddExpenseView: View {
 
 struct AddExpenseView_Previews: PreviewProvider {
     static var previews: some View {
-        AddExpenseView()
+        AddExpenseView(expenses: Expenses())
     }
 }
