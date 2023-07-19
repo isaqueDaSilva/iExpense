@@ -12,29 +12,28 @@ struct ContentView: View {
     @State private var typeOfExpenses: TypeOfExpenses = .personal
     @State private var showingExpenses = false
     
+    var search: [ExpensesItems] {
+        expenses.items.filter { $0.type.contains(typeOfExpenses.rawValue) }
+    }
+    
     var body: some View {
         NavigationView {
             List {
-//                Section("Type of Expenses") {
-//                    Picker("Type of Expenses", selection: $typeOfExpenses) {
-//                        ForEach(TypeOfExpenses.allCases, id: \.self) {
-//                            Text($0.rawValue)
-//                        }
-//                    }
-//                    .pickerStyle(.segmented)
-//                }
-//                .listRowBackground(Color(CGColor(red: 240, green: 240, blue: 246, alpha: 0)))
+                Section("Type of Expenses") {
+                    Picker("Type of Expenses", selection: $typeOfExpenses) {
+                        ForEach(TypeOfExpenses.allCases, id: \.self) {
+                            Text($0.rawValue)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                .listRowBackground(Color(CGColor(red: 240, green: 240, blue: 246, alpha: 0)))
                 if !expenses.items.isEmpty {
                     Section("Expenses:") {
-                        ForEach(expenses.items) { item in
+                        ForEach(search) { item in
                             HStack {
-                                VStack {
-                                    Text(item.name)
-                                        .font(.headline.bold())
-                                    Text(item.type)
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
+                                Text(item.name)
+                                    .font(.headline.bold())
                                 
                                 Spacer()
                                 
@@ -58,21 +57,21 @@ struct ContentView: View {
                     EditButton()
                 }
             }
-//            .toolbar {
-//                ToolbarItem(placement: .bottomBar) {
-//                    VStack {
-//                        Text("Total \(typeOfExpenses.rawValue) Expenses: 300")
-//                            .font(.subheadline.bold())
-//                            .foregroundColor(.gray)
-//
-//                        Spacer()
-//
-//                        Text("Total Expenses: 300")
-//                            .font(.subheadline.bold())
-//                            .foregroundColor(.gray)
-//                    }
-//                }
-//            }
+            .toolbar {
+                ToolbarItem(placement: .bottomBar) {
+                    VStack {
+                        Text("Total \(typeOfExpenses.rawValue) Expenses: 300")
+                            .font(.subheadline.bold())
+                            .foregroundColor(.gray)
+
+                        Spacer()
+
+                        Text("Total Expenses: 300")
+                            .font(.subheadline.bold())
+                            .foregroundColor(.gray)
+                    }
+                }
+            }
             .sheet(isPresented: $showingExpenses) {
                 AddExpenseView(expenses: expenses)
             }
