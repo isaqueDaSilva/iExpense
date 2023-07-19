@@ -12,6 +12,28 @@ struct ContentView: View {
     @State private var typeOfExpenses: TypeOfExpenses = .personal
     @State private var showingExpenses = false
     
+    var totalOfExpenses: Double {
+        var total: Double = 0
+        
+        for value in expenses.items {
+            total += value.amount
+        }
+        
+        return total
+    }
+    
+    var totalOfCurrentExpense: Double {
+        var total: Double = 0
+        
+        if typeOfExpenses == .business || typeOfExpenses == .personal {
+            for value in search {
+                total += value.amount
+            }
+        }
+        
+        return total
+    }
+    
     var search: [ExpensesItems] {
         expenses.items.filter { $0.type.contains(typeOfExpenses.rawValue) }
     }
@@ -60,13 +82,13 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     VStack {
-                        Text("Total \(typeOfExpenses.rawValue) Expenses: 300")
+                        Text("Total Amount of \(typeOfExpenses.rawValue) Expenses: \(totalOfCurrentExpense, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))")
                             .font(.subheadline.bold())
                             .foregroundColor(.gray)
 
                         Spacer()
 
-                        Text("Total Expenses: 300")
+                        Text("Total Amount of Expenses: \(totalOfExpenses, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))")
                             .font(.subheadline.bold())
                             .foregroundColor(.gray)
                     }
