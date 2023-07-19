@@ -32,6 +32,8 @@ struct AddExpenseView: View {
                 
                 VStack{
                     Button("Add", action: {
+                        let item = ExpensesItems(name: name, type: typeOfExpense.rawValue, amount: amount)
+                        expenses.items.append(item)
                         dimiss()
                     })
                     .frame(maxWidth: 430)

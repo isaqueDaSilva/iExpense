@@ -26,7 +26,10 @@ struct ContentView: View {
                 .listRowBackground(Color(CGColor(red: 240, green: 240, blue: 246, alpha: 0)))
                 
                 Section("Expenses:") {
-                    
+                    ForEach(expenses.items) { item in
+                        Text(item.name)
+                    }
+                    .onDelete(perform: removeRows)
                 }
             }
             .navigationTitle("iExpense")
@@ -36,6 +39,11 @@ struct ContentView: View {
                 }, label: {
                     Image(systemName: "plus")
                 })
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
@@ -56,6 +64,10 @@ struct ContentView: View {
                 AddExpenseView(expenses: expenses)
             }
         }
+    }
+    
+    func removeRows(at offsets: IndexSet) {
+        expenses.items.remove(atOffsets: offsets)
     }
 }
 
