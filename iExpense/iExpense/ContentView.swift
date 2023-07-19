@@ -7,67 +7,51 @@
 
 import SwiftUI
 
-//class Items: ObservableObject {
-//    @Published var name = "Product"
-//}
-
-struct SegundaView: View {
-    @Environment(\.dismiss) var dismiss
-    var itens = [String]()
+struct ContentView: View {
+    @StateObject var expenses = Expenses()
+    @State private var typeOfExpenses: TypeOfExpenses = .personal
     
     var body: some View {
         NavigationView {
-            VStack {
-                List {
-                    ForEach(itens, id: \.self) {
-                        Text($0)
+            List {
+                Section("Type of Expenses") {
+                    Picker("Type of Expenses", selection: $typeOfExpenses) {
+                        ForEach(TypeOfExpenses.allCases, id: \.self) {
+                            Text($0.rawValue)
+                        }
                     }
+                    .pickerStyle(.segmented)
                 }
-                Button("Fechar", action: {
-                    dismiss()
+                .listRowBackground(Color(CGColor(red: 240, green: 240, blue: 246, alpha: 0)))
+                
+                Section("Expenses:") {
+                    
+                }
+            }
+            .navigationTitle("iExpense")
+            .toolbar {
+                Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "plus")
                 })
             }
-            .navigationTitle("Itens")
-        }
-    }
-}
-
-struct ContentView: View {
-    @State private var item = ""
-    @State private var showingNextPage = false
-    @State private var itensAdicionados = [String]()
-    
-    var body: some View {
-        NavigationView {
-            VStack {
-                VStack {
-                    Text("Insira um novo item à lista:")
-                    
-                    TextField("Insira um item", text: $item)
-                    
-                    Button("Adicionar", action: {
-                        itensAdicionados.append(item)
-                    })
-                    .buttonStyle(.borderedProminent)
-                }
-                .padding()
-                
-                List {
-                    ForEach(itensAdicionados, id: \.self) {
-                        Text($0)
-                    }
-                    .onDelete(perform: removeRow)
-                }
-            }
-            .navigationTitle("Itens")
             .toolbar {
-                EditButton()
+                ToolbarItem(placement: .bottomBar) {
+                    VStack {
+                        Text("Total \(typeOfExpenses.rawValue) Expenses: 300")
+                            .font(.subheadline.bold())
+                            .foregroundColor(.gray)
+                        
+                        Spacer()
+                        
+                        Text("Total Expenses: 300")
+                            .font(.subheadline.bold())
+                            .foregroundColor(.gray)
+                    }
+                }
             }
         }
-    }
-    
-    func removeRow(at offsets: IndexSet) {
-        itensAdicionados.remove(atOffsets: offsets)
     }
 }
 
