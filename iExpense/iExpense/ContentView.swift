@@ -78,7 +78,6 @@ struct ContentView: View {
                                         Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                                             .foregroundColor(.gray)
                                     }
-                                    
                                 }
                                 .navigationTitle("Details")
                             }, label: {
@@ -89,6 +88,7 @@ struct ContentView: View {
                                     Spacer()
                                     
                                     Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                                        .foregroundColor(.gray)
                                 }
                             })
                         }
