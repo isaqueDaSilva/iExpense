@@ -48,6 +48,12 @@ struct ContentView: View {
         return total
     }
     
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter
+    }
+    
     var search: [ExpensesItems] {
         expenses.items.filter { $0.type.contains(typeOfExpenses.rawValue) }
     }
@@ -71,6 +77,7 @@ struct ContentView: View {
                                 List {
                                     ListView(title: "Name:", description: item.name)
                                     ListView(title: "Type:", description: item.type)
+                                    ListView(title: "Date:", description: dateFormatter.string(from: item.date))
                                     
                                     HStack {
                                         Text("Amount:")

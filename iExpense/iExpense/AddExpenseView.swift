@@ -11,6 +11,7 @@ struct AddExpenseView: View {
     @Environment(\.dismiss) var dimiss
     @State private var name = ""
     @State private var typeOfExpense: TypeOfExpenses = .personal
+    @State private var date = Date.now
     @State private var amount: Double = 0
     @ObservedObject var expenses: Expenses
     
@@ -26,13 +27,15 @@ struct AddExpenseView: View {
                         }
                     }
                     
+                    DatePicker("Date", selection: $date, displayedComponents: .date)
+                    
                     TextField("Amount", value: $amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                         .keyboardType(.decimalPad)
                 }
                 
                 VStack{
                     Button("Add", action: {
-                        let item = ExpensesItems(name: name, type: typeOfExpense.rawValue, amount: amount)
+                        let item = ExpensesItems(name: name, type: typeOfExpense.rawValue, date: date, amount: amount)
                         expenses.items.append(item)
                         dimiss()
                     })
