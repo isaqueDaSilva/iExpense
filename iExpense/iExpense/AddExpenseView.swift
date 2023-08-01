@@ -18,7 +18,7 @@ struct AddExpenseView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section("Expense:") {
+                Section {
                     TextField("Name", text: $name)
                     
                     Picker("Type", selection: $typeOfExpense) {
@@ -45,12 +45,18 @@ struct AddExpenseView: View {
                 .listRowBackground(Color(CGColor(red: 240, green: 240, blue: 246, alpha: 0)))
             }
             .navigationTitle("New Expense:")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                Button(action: {
-                    dimiss()
-                }, label: {
-                    Text("Close")
-                })
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button(action: {
+                        dimiss()
+                    }, label: {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                            Text("Back")
+                        }
+                    })
+                }
             }
         }
     }

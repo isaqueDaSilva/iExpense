@@ -61,7 +61,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                Section("Type of Expenses") {
+                Section {
                     Picker("Type of Expenses", selection: $typeOfExpenses) {
                         ForEach(TypeOfExpenses.allCases, id: \.self) {
                             Text($0.rawValue)
@@ -104,6 +104,7 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("iExpense")
+            .listStyle(.plain)
             .toolbar {
                 Button(action: {
                     showingExpenses = true
