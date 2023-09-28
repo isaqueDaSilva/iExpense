@@ -18,6 +18,7 @@
 		7EF801A22AC4ECFE0005D812 /* AddExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF801A12AC4ECFE0005D812 /* AddExpensesViewModel.swift */; };
 		7EF801A52AC4ED8A0005D812 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF801A42AC4ED8A0005D812 /* ListView.swift */; };
 		7EF801A82AC4F3F70005D812 /* ExpenseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF801A72AC4F3F70005D812 /* ExpenseManager.swift */; };
+		7EF801AE2AC52CF00005D812 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF801AD2AC52CF00005D812 /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		7EF801A12AC4ECFE0005D812 /* AddExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpensesViewModel.swift; sourceTree = "<group>"; };
 		7EF801A42AC4ED8A0005D812 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		7EF801A72AC4F3F70005D812 /* ExpenseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseManager.swift; sourceTree = "<group>"; };
+		7EF801AD2AC52CF00005D812 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 			children = (
 				7E535BDE2A65BDA8008D092A /* ExpensesView.swift */,
 				7E9B521A2A6799BD00DC1964 /* AddExpenseView.swift */,
+				7EF801AD2AC52CF00005D812 /* DetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				7EF801A52AC4ED8A0005D812 /* ListView.swift in Sources */,
 				7E9B52172A6777B800DC1964 /* ExpensesViewModel.swift in Sources */,
 				7EF801A22AC4ECFE0005D812 /* AddExpensesViewModel.swift in Sources */,
+				7EF801AE2AC52CF00005D812 /* DetailView.swift in Sources */,
 				7E9B52152A67765400DC1964 /* ExpensesItems.swift in Sources */,
 				7EF801A82AC4F3F70005D812 /* ExpenseManager.swift in Sources */,
 				7E535BDF2A65BDA8008D092A /* ExpensesView.swift in Sources */,

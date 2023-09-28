@@ -26,19 +26,7 @@ struct ExpensesView: View {
                         Section("Expenses:") {
                             ForEach(viewModel.search) { item in
                                 NavigationLink(destination: {
-                                    List {
-                                        ListView(title: "Name:", description: item.name)
-                                        ListView(title: "Type:", description: item.type)
-                                        ListView(title: "Date:", description: viewModel.dateFormatter.string(from: item.date))
-                                        
-                                        HStack {
-                                            Text("Amount:")
-                                            Spacer()
-                                            Text(viewModel.formatNumberToCurrency(value: item.amount))
-                                                .foregroundColor(.gray)
-                                        }
-                                    }
-                                    .navigationTitle("Details")
+                                    DetailView(name: item.name, type: item.type, date: item.formatDate(), amount: item.formatNumber())
                                 }, label: {
                                     HStack {
                                         Text(item.name)
@@ -46,12 +34,12 @@ struct ExpensesView: View {
                                         
                                         Spacer()
                                         
-                                        Text(viewModel.formatNumberToCurrency(value: item.amount))
+                                        Text(item.formatNumber())
                                             .foregroundColor(.gray)
                                     }
                                     .accessibilityElement()
                                     .accessibilityLabel(item.name)
-                                    .accessibilityValue("\(viewModel.formatNumberToCurrency(value: item.amount))")
+                                    .accessibilityValue(item.formatNumber())
                                 })
                             }
                             .onDelete(perform: viewModel.removeItems)
