@@ -8,36 +8,34 @@
 import SwiftUI
 
 struct AddExpenseView: View {
-    @Environment(\.dismiss) var dimiss
-    @State private var name = ""
-    @State private var typeOfExpense: TypeOfExpenses = .personal
-    @State private var date = Date.now
-    @State private var amount: Double = 0
-    @ObservedObject var expenses: Expenses
+    @Environment(\.dismiss) var dismiss
+    @StateObject var viewModel: AddExpensesViewModel
+    
+    var updateItemList: () -> Void
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Name", text: $name)
+                    TextField("Name", text: $viewModel.name)
                     
-                    Picker("Type", selection: $typeOfExpense) {
+                    Picker("Type", selection: $viewModel.typeOfExpense) {
                         ForEach(TypeOfExpenses.allCases, id: \.self) {
                             Text($0.rawValue)
                         }
                     }
                     
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
+                    DatePicker("Date", selection: $viewModel.date, displayedComponents: .date)
                     
-                    TextField("Amount", value: $amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    TextField("Amount", value: $viewModel.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                         .keyboardType(.decimalPad)
                 }
                 
                 VStack{
                     Button("Add", action: {
-                        let item = ExpensesItems(name: name, type: typeOfExpense.rawValue, date: date, amount: amount)
-                        expenses.items.append(item)
-                        dimiss()
+                        viewModel.addExpense()
+                        updateItemList()
+                        dismiss()
                     })
                     .frame(maxWidth: 430)
                     .buttonStyle(.borderedProminent)
@@ -49,7 +47,7 @@ struct AddExpenseView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button(action: {
-                        dimiss()
+                        dismiss()
                     }, label: {
                         HStack {
                             Image(systemName: "chevron.left")
@@ -60,10 +58,9 @@ struct AddExpenseView: View {
             }
         }
     }
-}
-
-struct AddExpenseView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddExpenseView(expenses: Expenses())
+    
+    init(typeOfExpense: TypeOfExpenses, updateItemList: @escaping () -> Void) {
+        self.updateItemList = updateItemList
+        _viewModel = StateObject(wrappedValue: AddExpensesViewModel(typeOfExpense: typeOfExpense, updateItemList: updateItemList))
     }
 }
