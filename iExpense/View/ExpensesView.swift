@@ -49,6 +49,9 @@ struct ExpensesView: View {
                                         Text(viewModel.formatNumberToCurrency(value: item.amount))
                                             .foregroundColor(.gray)
                                     }
+                                    .accessibilityElement()
+                                    .accessibilityLabel(item.name)
+                                    .accessibilityValue("\(viewModel.formatNumberToCurrency(value: item.amount))")
                                 })
                             }
                             .onDelete(perform: viewModel.removeItems)
